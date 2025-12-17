@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML & CSS Assignment</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h2 {
+            margin-top: 40px;
+        }
+
+        /* Product Card */
+        .card {
+            width: 250px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 20px 0;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .card img {
+            width: 100%;
+        }
+
+        .price {
+            color: green;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkblue;
+        }
+
+        /* Portfolio */
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        section {
+            padding: 20px;
+            margin: 10px 0;
+        }
+
+        footer {
+            background-color: #eee;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+
+</head>
+<body>
+
+<!-- Exercise 1: HTML Table -->
+<h2>Exercise 1: Student Marksheet</h2>
+
+<table border="1" cellpadding="8">
+    <thead>
+        <tr>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Subject 1</th>
+            <th>Subject 2</th>
+            <th>Subject 3</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Amit</td>
+            <td>80</td>
+            <td>75</td>
+            <td>85</td>
+            <td>240</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Neha</td>
+            <td>78</td>
+            <td>82</td>
+            <td>90</td>
+            <td>250</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Rahul</td>
+            <td>70</td>
+            <td>68</td>
+            <td>72</td>
+            <td>210</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Pooja</td>
+            <td>88</td>
+            <td>91</td>
+            <td>84</td>
+            <td>263</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Arjun</td>
+            <td>76</td>
+            <td>79</td>
+            <td>81</td>
+            <td>236</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Exercise 2: Basic Contact Form -->
+<h2>Exercise 2: Contact Form</h2>
+
+<form>
+    <label>Name:</label><br>
+    <input type="text"><br><br>
+
+    <label>Email:</label><br>
+    <input type="email"><br><br>
+
+    <label>Message:</label><br>
+    <textarea rows="4" cols="30"></textarea><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+<!-- Exercise 3: HTML5 Registration Form -->
+<h2>Exercise 3: Registration Form</h2>
+
+<form>
+    <label>Full Name:</label><br>
+    <input type="text" required><br><br>
+
+    <label>Email:</label><br>
+    <input type="email" required><br><br>
+
+    <label>Date of Birth:</label><br>
+    <input type="date" required><br><br>
+
+    <label>Phone Number:</label><br>
+    <input type="tel" required><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" required><br><br>
+
+    <label>Profile Picture:</label><br>
+    <input type="file"><br><br>
+
+    <input type="checkbox" required>
+    <label>I accept the Terms & Conditions</label><br><br>
+
+    <input type="submit" value="Register">
+</form>
+
+<!-- Exercise 4: Product Card -->
+<h2>Exercise 4: Product Card</h2>
+
+<div class="card">
+    <img src="https://via.placeholder.com/200">
+    <h3>Product Name</h3>
+    <p>Short product description.</p>
+    <p class="price">₹999</p>
+    <button>Buy Now</button>
+</div>
+
+<!-- Exercise 5: Personal Portfolio -->
+<h2>Exercise 5: Personal Portfolio</h2>
+
+<header>
+    <h1>Your Name</h1>
+    <p>Aspiring Web Developer</p>
+</header>
+
+<section>
+    <h3>About Me</h3>
+    <p>I am a student learning web development and building simple projects.</p>
+</section>
+
+<section>
+    <h3>Skills</h3>
+    <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>Basic JavaScript</li>
+    </ul>
+</section>
+
+<section>
+    <h3>Projects</h3>
+    <p>• Student Marksheet System</p>
+    <p>• Personal Portfolio Website</p>
+</section>
+
+<footer>
+    <p>Email: yourname@email.com</p>
+</footer>
+
+</body>
+</html>
