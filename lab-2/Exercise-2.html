@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Media</title>
+</head>
+<body>
+<h2>Audio Player</h2>
+<audio id="a" controls>
+<source src="audio.mp3">
+</audio>
+<p id="at"></p>
+
+<h2>Video Player</h2>
+<video id="v" width="400" controls>
+<source src="video.mp4">
+</video>
+<p id="vt"></p>
+
+<script>
+setInterval(()=>{
+at.innerText="Time: "+a.currentTime.toFixed(1);
+vt.innerText="Time: "+v.currentTime.toFixed(1);
+},500);
+</script>
+</body>
+</html>

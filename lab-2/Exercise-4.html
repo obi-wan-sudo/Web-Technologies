@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Management</title>
+</head>
+<body>
+
+<form onsubmit="add(event)">
+<input id="n" placeholder="Name">
+<input id="em" placeholder="Email">
+<input id="m" placeholder="Mobile">
+<input id="p" placeholder="Password" type="password">
+<button>Register</button>
+</form>
+
+<button onclick="clearAll()">Clear All Users</button>
+
+<table border="1">
+<thead>
+<tr><th>Name</th><th>Email</th><th>Mobile</th><th>Action</th></tr>
+</thead>
+<tbody id="tb"></tbody>
+</table>
+
+<script>
+let u=JSON.parse(localStorage.getItem("users")||"[]");
+
+function show(){
+tb.innerHTML="";
+u.forEach((x,i)=>{
+tb.innerHTML+=`<tr>
+<td>${x.n}</td>
+<td>${x.em}</td>
+<td>${x.m}</td>
+<td><button onclick="del(${i})">Delete</button></td>
+</tr>`;
+});
+localStorage.setItem("users",JSON.stringify(u));
+}
+
+function add(e){
+e.preventDefault();
+if(!n.value||!em.value||!m.value||!p.value)return;
+if(m.value.length!=10||p.value.length<6)return;
+if(u.some(x=>x.em===em.value))return;
+u.push({n:n.value,em:em.value,m:m.value});
+show();
+e.target.reset();
+}
+
+function del(i){
+u.splice(i,1);
+show();
+}
+
+function clearAll(){
+u=[];
+show();
+}
+
+show();
+</script>
+
+</body>
+</html>

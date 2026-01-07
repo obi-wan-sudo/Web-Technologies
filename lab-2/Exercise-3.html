@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Task Manager</title>
+<style>
+body{display:flex;gap:20px}
+.col{width:200px;min-height:300px;border:1px solid}
+.card{margin:5px;padding:5px;background:#ddd}
+.done{background:lightgreen}
+</style>
+</head>
+<body>
+<div>
+<input id="t">
+<button onclick="add()">Add Task</button>
+</div>
+
+<div class="col" ondrop="drop(event)" ondragover="allow(event)" id="todo">
+<h3>To Do</h3>
+</div>
+<div class="col" ondrop="drop(event)" ondragover="allow(event)" id="prog">
+<h3>In Progress</h3>
+</div>
+<div class="col" ondrop="drop(event)" ondragover="allow(event)" id="done">
+<h3>Completed</h3>
+</div>
+
+<script>
+function add(){
+let d=document.createElement("div");
+d.className="card";
+d.draggable=true;
+d.id=Date.now();
+d.ondragstart=e=>e.dataTransfer.setData("id",d.id);
+d.innerText=t.value+" "+new Date().toLocaleDateString();
+todo.appendChild(d);
+t.value="";
+}
+function allow(e){e.preventDefault()}
+function drop(e){
+e.preventDefault();
+let el=document.getElementById(e.dataTransfer.getData("id"));
+e.target.appendChild(el);
+if(e.target.id=="done"){
+el.classList.add("done");
+alert("Task Completed Successfully");
+}
+}
+</script>
+</body>
+</html>
