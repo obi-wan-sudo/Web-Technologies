@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Intelligent Shopping Cart</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background-color: #f4f4f9; }
+        .container { display: flex; gap: 20px; }
+        .product-list, .cart-section { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .product-list { flex: 1; }
+        .cart-section { flex: 1; }
+        .item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
+        .discount-msg { color: green; font-weight: bold; font-size: 0.9em; }
+        .total-section { margin-top: 20px; border-top: 2px solid #333; padding-top: 10px; }
+        button { cursor: pointer; padding: 5px 10px; background: #007bff; color: white; border: none; border-radius: 4px; }
+        button:hover { background: #0056b3; }
+        input[type="text"] { padding: 5px; width: 150px; }
+    </style>
+</head>
+<body>
+
+    <h1>Smart Shopping System</h1>
+    
+    <div class="container">
+        <div class="product-list">
+            <h3>Available Products</h3>
+            <div id="catalog"></div>
+        </div>
+
+        <div class="cart-section">
+            <h3>Your Cart</h3>
+            <div id="cart-items">
+                <p>Cart is empty</p>
+            </div>
+            
+            <div class="total-section">
+                <div class="form-group">
+                    <input type="text" id="couponCode" placeholder="Enter Coupon (e.g. SAVE10)">
+                    <button onclick="applyCoupon()">Apply</button>
+                    <p id="couponFeedback"></p>
+                </div>
+                <h4>Subtotal: $<span id="subtotal">0.00</span></h4>
+                <h4 class="discount-msg">Total Savings: -$<span id="savings">0.00</span></h4>
+                <h2 style="color: #2c3e50;">Grand Total: $<span id="total">0.00</span></h2>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Exercise Requirement: Array of products with name, price, and quantity [cite: 21]
+        const products = [
+            { id: 1, name: "Laptop", price: 1000, category: "Electronics" },
+            { id: 2, name: "Headphones", price: 200, category: "Electronics" },
+            { id: 3, name: "Coffee Mug", price: 15, category: "Home" },
+            { id: 4, name: "Notebook", price: 5, category: "Stationery" }
+        ];
+
+        let cart = [];
+        let couponDiscount = 0;
+
+        // Initialize Catalog
+        function renderCatalog() {
+            const catalogDiv = document.getElementById('catalog');
+            catalogDiv.innerHTML = products.map(p => `
+                <div class="item">
+                    <span>${p.name} ($${p.price}) - <small>${p.category}</small></span>
+                    <button onclick="addToCart(${p.id})">Add to Cart</button>
+                </div>
+            `).join('');
+        }
+
+        // Add/Update Quantity Dynamically [cite: 22]
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const cartItem = cart.find(item => item.id === productId);
+
+            if (cartItem) {
+                cartItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateUI();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateUI();
+        }
+
+        // Apply bulk and category-based discounts [cite: 23, 25]
+        function calculateTotals() {
+            let subtotal = 0;
+            let totalSavings = 0;
+            const now = new Date();
+            const hour = now.getHours();
+
+            cart.forEach(item => {
+                let itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+
+                // Rule 1: Bulk Discount (10% off if quantity > 3)
+                if (item.quantity > 3) {
+                    totalSavings += itemTotal * 0.10;
+                }
+
+                // Rule 2: Category Discount (Electronics 5% off)
+                if (item.category === "Electronics") {
+                    totalSavings += itemTotal * 0.05;
+                }
+
+                // Rule 3: Early Bird Discount (Time-of-day based) [cite: 19]
+                if (hour < 11) { // Before 11 AM
+                    totalSavings += itemTotal * 0.02;
+                }
+            });
+
+            // Rule 4: Coupon Code Validation using String methods 
+            totalSavings += (subtotal * couponDiscount);
+
+            const finalTotal = subtotal - totalSavings;
+            return { subtotal, totalSavings, finalTotal };
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('couponCode').value.trim().toUpperCase();
+            const feedback = document.getElementById('couponFeedback');
+
+            // Use string methods to parse/validate 
+            if (code.startsWith("SAVE") && code.length === 6) {
+                const percent = parseInt(code.substring(4)); // Extract numeric part
+                if (!isNaN(percent)) {
+                    couponDiscount = percent / 100;
+                    feedback.style.color = "green";
+                    feedback.innerText = `Coupon ${percent}% applied!`;
+                }
+            } else {
+                couponDiscount = 0;
+                feedback.style.color = "red";
+                feedback.innerText = "Invalid Coupon Code.";
+            }
+            updateUI();
+        }
+
+        // Update display in real time without page reload 
+        function updateUI() {
+            const cartDiv = document.getElementById('cart-items');
+            if (cart.length === 0) {
+                cartDiv.innerHTML = "<p>Cart is empty</p>";
+            } else {
+                cartDiv.innerHTML = cart.map(item => `
+                    <div class="item">
+                        <span>${item.name} (x${item.quantity})</span>
+                        <span>$${(item.price * item.quantity).toFixed(2)} 
+                        <button onclick="removeFromCart(${item.id})" style="background:red">X</button></span>
+                    </div>
+                `).join('');
+            }
+
+            const totals = calculateTotals();
+            document.getElementById('subtotal').innerText = totals.subtotal.toFixed(2);
+            document.getElementById('savings').innerText = totals.totalSavings.toFixed(2);
+            document.getElementById('total').innerText = totals.finalTotal.toFixed(2);
+        }
+
+        renderCatalog();
+    </script>
+</body>
+</html>

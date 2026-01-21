@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Survey Builder</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 30px; background-color: #f0f2f5; }
+        #survey-container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
+        .question-block { margin-bottom: 20px; padding: 15px; border-left: 5px solid #007bff; background: #fafafa; }
+        .question-label { font-weight: bold; display: block; margin-bottom: 10px; }
+        .error-msg { color: #dc3545; font-size: 0.85em; margin-top: 5px; display: none; }
+        .options-group { display: flex; flex-direction: column; gap: 8px; }
+        .invalid-input { border: 1px solid #dc3545 !important; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+    <div id="survey-container">
+        <h2>Course Feedback Survey</h2>
+        <form id="dynamicSurvey">
+            <div id="questions-area"></div>
+            <button type="submit">Submit Survey</button>
+        </form>
+    </div>
+
+    <script>
+        // Requirements: Structure to store questions and types [cite: 30]
+        const surveyData = [
+            { id: "q1", type: "text", label: "What is your name?", required: true, limit: 50 },
+            { id: "q2", type: "radio", label: "Rate the course difficulty:", options: ["Easy", "Moderate", "Hard"], required: true },
+            { id: "q3", type: "checkbox", label: "Which topics did you enjoy? (Select at least 2)", options: ["JavaScript", "DOM", "CSS", "HTML"], minSelect: 2 },
+            { id: "q4", type: "text", label: "Additional Comments", required: false, limit: 200 }
+        ];
+
+        const questionsArea = document.getElementById('questions-area');
+
+        // Requirements: Dynamically generate form fields 
+        function generateSurvey() {
+            surveyData.forEach(q => {
+                const block = document.createElement('div');
+                block.className = 'question-block';
+                
+                const label = document.createElement('label');
+                label.className = 'question-label';
+                label.innerText = q.label + (q.required ? ' *' : '');
+                block.appendChild(label);
+
+                if (q.type === 'text') {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.id = q.id;
+                    input.style.width = "95%";
+                    block.appendChild(input);
+                } 
+                else if (q.type === 'radio' || q.type === 'checkbox') {
+                    const group = document.createElement('div');
+                    group.className = 'options-group';
+                    q.options.forEach(opt => {
+                        const optLabel = document.createElement('label');
+                        optLabel.innerHTML = `<input type="${q.type}" name="${q.id}" value="${opt}"> ${opt}`;
+                        group.appendChild(optLabel);
+                    });
+                    block.appendChild(group);
+                }
+
+                // Placeholder for inline validation messages 
+                const error = document.createElement('div');
+                error.id = `${q.id}-error`;
+                error.className = 'error-msg';
+                block.appendChild(error);
+
+                questionsArea.appendChild(block);
+            });
+        }
+
+        // Requirements: Validate inputs before submission [cite: 32, 33]
+        function validateSurvey() {
+            let isValid = true;
+
+            surveyData.forEach(q => {
+                const errorElement = document.getElementById(`${q.id}-error`);
+                let isFieldValid = true;
+                let message = "";
+
+                if (q.type === 'text') {
+                    const val = document.getElementById(q.id).value.trim();
+                    if (q.required && val === "") {
+                        isFieldValid = false;
+                        message = "This field is required.";
+                    } else if (q.limit && val.length > q.limit) {
+                        isFieldValid = false;
+                        message = `Limit exceeded (${q.limit} chars).`;
+                    }
+                } 
+                else if (q.type === 'radio') {
+                    const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+                    if (q.required && !checked) {
+                        isFieldValid = false;
+                        message = "Please select an option.";
+                    }
+                }
+                else if (q.type === 'checkbox') {
+                    const checkedCount = document.querySelectorAll(`input[name="${q.id}"]:checked`).length;
+                    if (q.minSelect && checkedCount < q.minSelect) {
+                        isFieldValid = false;
+                        message = `Please select at least ${q.minSelect} options.`;
+                    }
+                }
+
+                // Requirements: Show/hide inline validation 
+                if (!isFieldValid) {
+                    errorElement.innerText = message;
+                    errorElement.style.display = 'block';
+                    isValid = false;
+                } else {
+                    errorElement.style.display = 'none';
+                }
+            });
+
+            return isValid;
+        }
+
+        // Requirements: Prevent submission until valid [cite: 35]
+        document.getElementById('dynamicSurvey').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (validateSurvey()) {
+                alert("Survey submitted successfully!");
+            }
+        });
+
+        generateSurvey();
+    </script>
+</body>
+</html>

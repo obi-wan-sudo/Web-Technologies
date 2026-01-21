@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adaptive Registration System</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; }
+        .error { color: red; font-size: 0.8em; display: none; }
+        .invalid { border: 2px solid red; }
+        .valid { border: 2px solid green; }
+        #admin-code-group { display: none; } /* Hidden by default */
+        #skills-section { margin-top: 10px; padding: 10px; border: 1px dashed #ccc; }
+    </style>
+</head>
+<body>
+
+    <h2>User Registration</h2>
+    <form id="registrationForm">
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="name" required>
+            <span class="error" id="nameError">Name is required.</span>
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email" required>
+            <span class="error" id="emailError">Please enter a valid email (e.g., @vitap.ac.in).</span>
+        </div>
+
+        <div class="form-group">
+            <label>Role</label>
+            <select id="role">
+                <option value="Student">Student</option>
+                <option value="Teacher">Teacher</option>
+                <option value="Admin">Admin</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="admin-code-group">
+            <label>Admin Security Code</label>
+            <input type="password" id="adminCode">
+            <span class="error" id="adminError">Admin code must be 8+ characters.</span>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="password" required>
+            <span class="error" id="passwordError">Weak password.</span>
+        </div>
+
+        <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" id="confirmPassword" required>
+            <span class="error" id="confirmError">Passwords do not match.</span>
+        </div>
+
+        <div class="form-group">
+            <label>Age</label>
+            <input type="number" id="age">
+            <span class="error" id="ageError">Invalid age for selected role.</span>
+        </div>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+        const roleSelect = document.getElementById('role');
+        const adminGroup = document.getElementById('admin-code-group');
+
+        // 1. Role-based field visibility 
+        roleSelect.addEventListener('change', () => {
+            if (roleSelect.value === 'Admin') {
+                adminGroup.style.display = 'block';
+            } else {
+                adminGroup.style.display = 'none';
+            }
+        });
+
+        // 2. Validation Logic [cite: 13, 14, 15]
+        function validateForm() {
+            let isValid = true;
+            const role = roleSelect.value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const age = parseInt(document.getElementById('age').value);
+
+            // Email Domain Check 
+            if (!email.endsWith('@vitap.ac.in') && !email.endsWith('.edu')) {
+                showError('email', true);
+                isValid = false;
+            } else {
+                showError('email', false);
+            }
+
+            // Dynamic Password Strength 
+            // Admins need 10+ chars, others need 6+
+            const minLength = (role === 'Admin') ? 10 : 6;
+            if (password.length < minLength) {
+                document.getElementById('passwordError').innerText = `Role ${role} requires ${minLength}+ characters.`;
+                showError('password', true);
+                isValid = false;
+            } else {
+                showError('password', false);
+            }
+
+            // Confirm Password
+            if (password !== confirmPassword) {
+                showError('confirm', true);
+                isValid = false;
+            } else {
+                showError('confirm', false);
+            }
+
+            // Role-based Age Validation
+            if (role === 'Student' && (age < 17 || age > 30)) {
+                showError('age', true);
+                isValid = false;
+            } else {
+                showError('age', false);
+            }
+
+            return isValid;
+        }
+
+        // Helper function for DOM manipulation 
+        function showError(fieldId, isError) {
+            const errorSpan = document.getElementById(`${fieldId}Error`);
+            const inputField = document.getElementById(fieldId === 'confirm' ? 'confirmPassword' : fieldId);
+            
+            if (isError) {
+                errorSpan.style.display = 'block';
+                inputField.classList.add('invalid');
+                inputField.classList.remove('valid');
+            } else {
+                errorSpan.style.display = 'none';
+                inputField.classList.remove('invalid');
+                inputField.classList.add('valid');
+            }
+        }
+
+        // Prevent submission if invalid [cite: 17]
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (validateForm()) {
+                alert('Registration Successful for ' + roleSelect.value);
+            } else {
+                alert('Please correct the errors in the form.');
+            }
+        });
+    </script>
+</body>
+</html>

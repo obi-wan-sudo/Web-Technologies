@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Activity Monitor - Experiment 4</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background-color: #f8f9fa; }
+        .main-container { display: flex; gap: 20px; }
+        .interaction-area { flex: 1; background: white; padding: 20px; border-radius: 8px; border: 2px solid #dee2e6; }
+        .log-area { flex: 1; background: #212529; color: #00ff00; padding: 20px; border-radius: 8px; height: 500px; overflow-y: auto; font-family: monospace; }
+        .input-box { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ced4da; }
+        .warning { color: #ffc107; font-weight: bold; margin-top: 10px; display: none; }
+        .log-entry { margin-bottom: 5px; border-bottom: 1px solid #343a40; font-size: 0.9em; }
+        .controls { margin-top: 20px; }
+        button { padding: 8px 16px; margin-right: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>Experiment 4: User Activity Tracking</h2>
+    <p>Interactions in the box below are tracked using Event Bubbling and Capturing.</p>
+
+    <div class="main-container">
+        <div class="interaction-area" id="monitorZone">
+            <h3>Interactive Zone</h3>
+            <button id="clickMe">Click This Button</button>
+            <input type="text" id="keyInput" class="input-box" placeholder="Focus and type here...">
+            <div id="suspiciousAlert" class="warning">⚠️ ALERT: High frequency activity detected!</div>
+        </div>
+
+        <div class="log-area" id="activityLog">
+            <div>[System] Log Started...</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button onclick="resetLog()">Reset Log</button>
+        <button onclick="exportLog()">Export Log (.txt)</button>
+    </div>
+
+    <script>
+        // Requirements: Store activity in an array of objects [cite: 40]
+        let activityData = [];
+        let clickCounter = 0;
+        const logDisplay = document.getElementById('activityLog');
+        const alertMsg = document.getElementById('suspiciousAlert');
+
+        // Core Logging Function
+        function recordActivity(eventName, target, phase) {
+            const entry = {
+                timestamp: new Date().toLocaleTimeString(),
+                event: eventName,
+                target: target,
+                phase: phase
+            };
+            
+            activityData.push(entry); // [cite: 40]
+            displayLog(entry);
+            checkThreshold(eventName);
+        }
+
+        // Requirements: Dynamically display the activity log using DOM [cite: 42]
+        function displayLog(entry) {
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            div.innerText = `[${entry.timestamp}] ${entry.phase.toUpperCase()} - ${entry.event} on <${entry.target}>`;
+            logDisplay.prepend(div);
+        }
+
+        // Requirements: Use event bubbling and capturing 
+        
+        // 1. CAPTURING PHASE (Global monitor)
+        window.addEventListener('click', (e) => {
+            recordActivity('Click', e.target.tagName, 'Capturing');
+        }, true);
+
+        // 2. BUBBLING PHASE (Direct interactions)
+        const zone = document.getElementById('monitorZone');
+        
+        zone.addEventListener('click', (e) => {
+            recordActivity('Click', e.target.tagName, 'Bubbling');
+        });
+
+        document.getElementById('keyInput').addEventListener('keydown', (e) => {
+            recordActivity(`Keypress (${e.key})`, 'INPUT', 'Bubbling');
+        });
+
+        document.getElementById('keyInput').addEventListener('focus', () => {
+            recordActivity('Focus', 'INPUT', 'Bubbling');
+        });
+
+        // Requirements: Thresholds for suspicious activity 
+        function checkThreshold(type) {
+            if (type === 'Click') {
+                clickCounter++;
+                if (clickCounter > 10) { // Threshold: More than 10 clicks
+                    alertMsg.style.display = 'block';
+                }
+                // Reset threshold counter every 3 seconds
+                setTimeout(() => { 
+                    clickCounter = 0; 
+                    alertMsg.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Requirements: Reset and Export as formatted text 
+        function resetLog() {
+            activityData = [];
+            logDisplay.innerHTML = '<div>[System] Log Reset.</div>';
+            alertMsg.style.display = 'none';
+        }
+
+        function exportLog() {
+            let content = "--- User Activity Log Export ---\n";
+            activityData.forEach(item => {
+                content += `[${item.timestamp}] ${item.event} | Target: ${item.target} | Phase: ${item.phase}\n`;
+            });
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'UserActivity.txt';
+            a.click();
+        }
+    </script>
+</body>
+</html>
