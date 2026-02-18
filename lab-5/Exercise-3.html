@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Record System (JSON Fetch)</title>
+    <link rel="stylesheet" href="style-3.css">
+</head>
+
+<body>
+    <h1>Student Record System</h1>
+    <div class="student-container">
+        <div id="messageBox" class="message-box"></div>
+        <div class="input-section">
+            <input type="text" id="stuId" placeholder="Student ID">
+            <input type="text" id="stuName" placeholder="Full Name">
+            <input type="text" id="stuCourse" placeholder="Course">
+            <input type="number" id="stuMarks" placeholder="Marks" min="0" max="100">
+        </div>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <button onclick="addStudent()">Add Student</button>
+            <button id="updateBtn" onclick="updateStudent()" style="display:none; background-color: #f39c12;">Update
+                Student</button>
+            <button id="cancelBtn" onclick="cancelEdit()"
+                style="display:none; background-color: #95a5a6;">Cancel</button>
+        </div>
+        <table id="studentTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Course</th>
+                    <th>Marks</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Student rows will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+    <script src="script-3.js"></script>
+</body>
+
+</html>

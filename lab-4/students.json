@@ -1,0 +1,20 @@
+[
+    {
+        "id": "S001",
+        "name": "David Miller",
+        "department": "Computer Science",
+        "marks": 88
+    },
+    {
+        "id": "S002",
+        "name": "Sarah Wilson",
+        "department": "Electrical Engineering",
+        "marks": 92
+    },
+    {
+        "id": "S003",
+        "name": "James Anderson",
+        "department": "Mechanical Engineering",
+        "marks": 75
+    }
+]

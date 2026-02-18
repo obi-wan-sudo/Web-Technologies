@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System (XML)</title>
+    <link rel="stylesheet" href="style-1.css">
+</head>
+
+<body>
+    <h1>Employee Management System</h1>
+    <div class="container">
+        <div id="message" class="message"></div>
+        <div class="form-group">
+            <input type="number" id="empId" placeholder="ID">
+            <input type="text" id="empName" placeholder="Name">
+            <input type="text" id="empDept" placeholder="Department">
+            <input type="number" id="empSalary" placeholder="Salary">
+            <button onclick="addEmployee()">Add Employee</button>
+            <button class="update-btn" onclick="updateEmployee()">Update Employee</button>
+        </div>
+        <table id="employeeTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Salary</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Employee rows will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+    <script src="script-1.js"></script>
+</body>
+
+</html>

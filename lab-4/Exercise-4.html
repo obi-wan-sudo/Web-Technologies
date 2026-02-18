@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX Weather Dashboard</title>
+    <link rel="stylesheet" href="style-4.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="weather-container">
+        <h1>Weather App</h1>
+        <div class="search-box">
+            <input type="text" id="cityInput" placeholder="Enter city name..." autocomplete="off">
+            <button onclick="getWeather()"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div id="loader" class="loader"></div>
+        <div id="error" class="error-message"></div>
+
+        <div id="weatherInfo" class="weather-info">
+            <h2 id="cityName">New York</h2>
+            <div class="weather-icon">
+                <img id="weatherIcon" src="https://openweathermap.org/img/wn/04d@2x.png" alt="Weather Icon">
+            </div>
+            <div class="temp"><span id="tempVal">22</span>°C</div>
+            <div class="description" id="weatherDesc">Cloudy</div>
+
+            <div class="details">
+                <div class="col">
+                    <i class="fas fa-water"></i>
+                    <div>
+                        <p id="humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <i class="fas fa-wind"></i>
+                    <div>
+                        <p id="windSpeed">15 km/h</p>
+                        <p>Wind Speed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 15px; font-size: 0.8rem; color: rgba(255,255,255,0.7);">
+            <label><input type="checkbox" id="mockMode" style="width: auto;"> Use Mock Data (No API Key)</label>
+        </div>
+    </div>
+    <script src="script-4.js"></script>
+</body>
+
+</html>

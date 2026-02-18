@@ -1,0 +1,126 @@
+:root {
+    --primary-color: #8e44ad;
+    --secondary-color: #f3e5f5;
+    --text-color: #2c3e50;
+    --border-color: #bdc3c7;
+    --btn-color: #9b59b6;
+    --btn-hover: #8e44ad;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: var(--primary-color);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.library-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 800px;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+input,
+select {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    flex: 1;
+    min-width: 150px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: var(--btn-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: var(--btn-hover);
+    transform: translateY(-2px);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.status-available {
+    color: green;
+    font-weight: bold;
+}
+
+.status-checked-out {
+    color: red;
+    font-weight: bold;
+}
+
+.action-btn {
+    padding: 5px 10px;
+    margin: 2px;
+    font-size: 12px;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+.update-btn {
+    background-color: #f39c12;
+}
+
+.update-btn:hover {
+    background-color: #e67e22;
+}

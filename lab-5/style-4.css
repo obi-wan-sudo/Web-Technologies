@@ -1,0 +1,127 @@
+:root {
+    --primary-color: #27ae60;
+    --secondary-color: #ecf0f1;
+    --text-color: #2c3e50;
+    --danger-color: #c0392b;
+    --warning-color: #f39c12;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.inventory-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1000px;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+input,
+select {
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #219150;
+}
+
+.search-box {
+    padding: 10px;
+    width: 250px;
+    border: 2px solid var(--primary-color);
+    border-radius: 20px;
+    outline: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+.low-stock {
+    color: var(--danger-color);
+    font-weight: bold;
+    background-color: #fadbd8;
+}
+
+.total-value {
+    margin-top: 20px;
+    text-align: right;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.action-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    margin: 2px;
+}
+
+.delete-btn {
+    background-color: var(--danger-color);
+}
+
+.edit-btn {
+    background-color: var(--warning-color);
+}

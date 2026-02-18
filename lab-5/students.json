@@ -1,0 +1,20 @@
+[
+    {
+        "id": "S101",
+        "name": "Alice Green",
+        "course": "Computer Science",
+        "marks": 92
+    },
+    {
+        "id": "S102",
+        "name": "Bob Brown",
+        "course": "Mechanical Engineering",
+        "marks": 85
+    },
+    {
+        "id": "S103",
+        "name": "Charlie White",
+        "course": "Electrical Engineering",
+        "marks": 78
+    }
+]
