@@ -1,13 +1,12 @@
 let employees = [];
 
-// Load XML data on page load
-window.onload = function() {
+window.onload = function () {
     loadXML();
 };
 
 function loadXML() {
     const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             parseXML(this);
         }
@@ -19,7 +18,7 @@ function loadXML() {
 function parseXML(xml) {
     const xmlDoc = xml.responseXML;
     const empNodes = xmlDoc.getElementsByTagName("employee");
-    
+
     employees = []; // Reset local array
     for (let i = 0; i < empNodes.length; i++) {
         const emp = {
@@ -36,7 +35,7 @@ function parseXML(xml) {
 function renderTable() {
     const tableBody = document.querySelector("#employeeTable tbody");
     tableBody.innerHTML = "";
-    
+
     employees.forEach((emp, index) => {
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -64,7 +63,7 @@ function addEmployee() {
         return;
     }
 
-    // Check if ID already exists
+
     if (employees.some(e => e.id === id)) {
         showMessage("Employee ID already exists", "error");
         return;
@@ -86,15 +85,12 @@ function deleteEmployee(index) {
 function editEmployee(index) {
     const emp = employees[index];
     document.getElementById("empId").value = emp.id;
-    document.getElementById("empId").disabled = true; // ID cannot be changed during edit usually, or we can allow it. Let's disable for simplicity of tracking.
+    document.getElementById("empId").disabled = true;
     document.getElementById("empName").value = emp.name;
     document.getElementById("empDept").value = emp.department;
     document.getElementById("empSalary").value = emp.salary;
-    
-    // Change Add button to Update mode conceptually, or just use a separate Update button in UI.
-    // I added an Update button in HTML, initially visible. Let's make it smarter.
-    // Ideally we should toggle visibility.
-    // For now, the user can click 'Update Employee' which reads the ID and updates.
+
+
 }
 
 function updateEmployee() {
@@ -133,3 +129,7 @@ function showMessage(msg, type) {
         msgDiv.style.display = "none";
     }, 3000);
 }
+
+
+
+
