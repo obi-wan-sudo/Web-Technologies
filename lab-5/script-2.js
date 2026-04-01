@@ -1,4 +1,4 @@
-let xmlDoc;
+2let xmlDoc;
 
 window.onload = function () {
     loadBooks();
